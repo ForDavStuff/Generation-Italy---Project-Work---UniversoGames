@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.universogames.cmsnewsrecensioni.dao.IDaoImmagini;
 import com.universogames.cmsnewsrecensioni.entities.Immagine;
+import com.universogames.cmsnewsrecensioni.service.FileStorageService;
 
 @RestController
 @RequestMapping("/immagini")
@@ -33,35 +36,18 @@ public class ControllerImmagini {
 	public Immagine getOne(@PathVariable int id) {
 		return dao.immagineCopertina(id);
 	}
-	/*
-	@PostMapping
-	public ResponseEntity<String> post(@RequestBody Immagine immagine) {
-		String ris = "{ \"msg\": \"[MSG]\" }";
-		if (dao.aggiungi(immagine, 0)) {
-			return new ResponseEntity<String>(ris.replace("[MSG]", "OK"), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<String>(ris.replace("[MSG]", "Ops... Something went wrong"), HttpStatus.BAD_REQUEST);
-		}
-	}
 	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable int id) {
-		String ris = "{ \"msg\": \"[MSG]\" }";
-		if (dao.elimina(id)) {
+	@Autowired
+	private FileStorageService fss;
+
+    @PostMapping
+    public ResponseEntity<String> uploadFile(@RequestParam MultipartFile file) {
+    	String ris = "{ \"msg\": \"[MSG]\" }";
+		if (fss.salvaFile(file)) {
 			return new ResponseEntity<String>(ris.replace("[MSG]", "OK"), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>(ris.replace("[MSG]", "Ops... Something went wrong"), HttpStatus.BAD_REQUEST);
 		}
-	}
-	
-	@PutMapping
-	public ResponseEntity<String> update(@RequestBody Immagine immagine) {
-		String ris = "{ \"msg\": \"[MSG]\" }";
-		if (dao.modifica(immagine, 0)) {
-			return new ResponseEntity<String>(ris.replace("[MSG]", "OK"), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<String>(ris.replace("[MSG]", "Ops... Something went wrong"), HttpStatus.BAD_REQUEST);
-		}
-	}
-	*/
+    }
+    
 }

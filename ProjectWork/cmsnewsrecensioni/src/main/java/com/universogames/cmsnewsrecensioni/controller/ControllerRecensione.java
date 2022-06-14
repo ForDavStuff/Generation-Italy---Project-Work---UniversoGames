@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.universogames.cmsnewsrecensioni.dao.IDaoRecensioni;
 import com.universogames.cmsnewsrecensioni.dao.IDaoUtenti;
 import com.universogames.cmsnewsrecensioni.entities.Recensione;
-import com.universogames.cmsnewsrecensioni.entities.Utente;
 
 @RestController
 @RequestMapping("/recensioni")

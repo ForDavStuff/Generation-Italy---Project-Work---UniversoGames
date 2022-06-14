@@ -150,6 +150,9 @@ public class DaoNotizie implements IDaoNotizie {
 //					return false;
 //				}
 //			}
+			if (!daoImmagini.elimina(daoImmagini.immagineCopertina(id).getId())) {
+				return false;
+			}
 			if (!daoImmagini.eliminaNotizia(n.getId())) {
 				return false;
 			}
@@ -183,23 +186,26 @@ public class DaoNotizie implements IDaoNotizie {
 				stm.setDate(4, new Date(notizia.getData().getTime()));
 				stm.setInt(5, notizia.getAutore().getId());
 				stm.setInt(6, notizia.getId());
-				
 				if(stm.executeUpdate() == 0) {
 					return false;
 				} else {
-					ArrayList<Notizia> notizie = notizie(notizia.getAutore());
-					int idnotizia = notizie.get(notizie.size() - 1).getId();
-					notizia.setId(idnotizia);
-					if (!daoImmagini.modifica(notizia.getCopertina(), notizia.getId())) {
+//					if (!daoImmagini.modifica(notizia.getCopertina(), notizia.getId())) {
+//						System.out.println(1);
+//						return false;
+//					}
+					if (!daoImmagini.elimina(daoImmagini.immagineCopertina(notizia.getId()).getId())) {
+						return false;
+					}
+					if (!daoImmagini.aggiungi(notizia.getCopertina(), notizia.getId())) {
+						return false;
+					}
+					if (!daoImmagini.eliminaNotizia(notizia.getId())) {
 						return false;
 					}
 					for (Immagine immagine : notizia.getCarosello()) {
 //						if (!daoImmagini.modifica(immagine, notizia.getId())) {
 //							return false;
 //						}
-						if (!daoImmagini.eliminaNotizia(notizia.getId())) {
-							return false;
-						}
 						if (!daoImmagini.aggiungi(immagine, notizia.getId())) {
 							return false;
 						}

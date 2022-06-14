@@ -1,7 +1,6 @@
 package com.universogames.cmsnewsrecensioni.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -142,7 +141,7 @@ public class DaoImmagini implements IDaoImmagini {
 		
 		if (i != null) {
 			try (Connection conn = DriverManager.getConnection(dbAddress, username, password)) {
-				PreparedStatement stm = conn.prepareStatement("delete from immagini where idnotizia = ?");
+				PreparedStatement stm = conn.prepareStatement("delete from immagini where idnotizia = ? and ruolo = 'carosello'");
 				
 				stm.setInt(1, id);
 				
