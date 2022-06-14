@@ -60,7 +60,7 @@ jQuery(function($) {
 			    ellipsis: '...',
 			    controlBtn: '',
 
-			    showText: 'Mostra di più',
+			    showText: 'Mostra di pi&ugrave;',
 			    hideText: 'Nacondi testo',
 			    showClass: 'show-class',
 			    hideClass: 'hide-class',
@@ -83,7 +83,7 @@ jQuery(function($) {
 			    ellipsis: '...',
 			    controlBtn: '',
 
-			    showText: 'Mostra di più',
+			    showText: 'Mostra di pi&ugrave;',
 			    hideText: 'Nacondi testo',
 			    showClass: 'show-class',
 			    hideClass: 'hide-class',

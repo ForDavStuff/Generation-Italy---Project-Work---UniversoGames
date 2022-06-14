@@ -27,7 +27,7 @@ class Notizia {
         <img src="images/${this.copertina.nome}" alt="">
         <br><br>`;
     for (var immagine of this.carosello) {
-      notizia += `<img src="images/${immagine.nome}" alt=""><br>`;
+      notizia += `<img src="images/${immagine.nome}" alt="">`;
     }
     notizia += `</td>
       <td>
@@ -101,7 +101,7 @@ jQuery(function($) {
       if ($(this).val() != '') {
         n.carosello[index] = new Immagine(-1, $(this).val().split('\\')[$(this).val().split('\\').length - 1], 'carosello');
         index++;
-      } else if ($(this).next().attr('src').split('images/').length == 2) {
+      } else if ($(this).next().attr('src').split('images/').length == 2 && $(this).next().attr('src').split('images/')[1] != '[IMG]') {
         n.carosello[index] = new Immagine(-1, $(this).next().attr('src').split('images/')[1], 'carosello');
         index++;
 	    }
@@ -137,7 +137,7 @@ jQuery(function($) {
 			    ellipsis: '...',
 			    controlBtn: '',
 
-			    showText: 'Mostra di più',
+			    showText: 'Mostra di pi&ugrave;',
 			    hideText: 'Nacondi testo',
 			    showClass: 'show-class',
 			    hideClass: 'hide-class',
@@ -160,7 +160,7 @@ jQuery(function($) {
 			    ellipsis: '...',
 			    controlBtn: '',
 
-			    showText: 'Mostra di più',
+			    showText: 'Mostra di pi&ugrave;',
 			    hideText: 'Nacondi testo',
 			    showClass: 'show-class',
 			    hideClass: 'hide-class',
@@ -183,7 +183,7 @@ jQuery(function($) {
 			    ellipsis: '...',
 			    controlBtn: '',
 
-			    showText: 'Mostra di più',
+			    showText: 'Mostra di pi&ugrave;',
 			    hideText: 'Nacondi testo',
 			    showClass: 'show-class',
 			    hideClass: 'hide-class',
@@ -236,20 +236,52 @@ jQuery(function($) {
 	    },
 			success: function(response) {
 				if (response.msg == 'OK') {
-					renderTable();
 					titolo.val('').focus();
 					categoria.val('');
 					contenuto.val('');
 					data.val('');
-          copertina.val('');
-          $('[id^=eliminaimmagine]').each(function(){
-            $(this).click();
-          });
-          $('#aggiungiimmagine').click();
 				} else {
 					alert(response.msg);
 				}
 			}
+		}).then(function(){
+			/*copertina*/
+			if(copertina.val() != ''){
+				imagePost(copertina[0].files[0], function(response) {
+					if (response.msg == 'OK') {
+						copertina.val('');
+						copertina.next().attr('src', 'images/[IMG]');
+					} else {
+						alert(response.msg);
+					}
+				});
+			} else if (copertina.next().attr('src').split('images/').length == 2 && copertina.next().attr('src').split('images/')[1] != '[IMG]') {
+				copertina.val('');
+				copertina.next().attr('src', 'images/[IMG]');
+	    }
+		}).then(function(){
+			/*immagini carosello*/
+			$('[id^=immaginecarosello]').each(function(){
+	      if ($(this).val() != '') {
+					imagePost($(this)[0].files[0], function(response) {
+						if (response.msg == 'OK') {
+							$('[id^=eliminaimmagine]').each(function(){
+								$(this).click();
+							});
+							$('#aggiungiimmagine').click();
+						} else {
+							alert(response.msg);
+						}
+					});
+	      } else if ($(this).next().attr('src').split('images/').length == 2 && $(this).next().attr('src').split('images/')[1] != '[IMG]') {
+					$('[id^=eliminaimmagine]').each(function(){
+						$(this).click();
+					});
+					$('#aggiungiimmagine').click();
+	    	}
+			});
+		}).then(function(){
+			renderTable();
 		});
 	}
   function doPut(n) {
@@ -263,22 +295,54 @@ jQuery(function($) {
 	    },
 			success: function(response) {
 				if (response.msg == 'OK') {
-					renderTable();
 					$('#aggiunginotizia').text('Aggiungi');
 					id.val(-1);
 					titolo.val('').focus();
 					categoria.val('');
 					contenuto.val('');
 					data.val('');
-          //copertina.val('');
-          $('[id^=eliminaimmagine]').each(function(){
-            $(this).click();
-          });
-          $('#aggiungiimmagine').click();
 				} else {
 					alert(response.msg);
 				}
 			}
+		}).then(function(){
+			/*copertina*/
+			if(copertina.val() != ''){
+				imagePost(copertina[0].files[0], function(response) {
+					if (response.msg == 'OK') {
+						copertina.val('');
+						copertina.next().attr('src', 'images/[IMG]');
+					} else {
+						alert(response.msg);
+					}
+				});
+			} else if (copertina.next().attr('src').split('images/').length == 2 && copertina.next().attr('src').split('images/')[1] != '[IMG]') {
+				copertina.val('');
+				copertina.next().attr('src', 'images/[IMG]');
+	    }
+		}).then(function(){
+			/*immagini carosello*/
+			$('[id^=immaginecarosello]').each(function(){
+	      if ($(this).val() != '') {
+					imagePost($(this)[0].files[0], function(response) {
+						if (response.msg == 'OK') {
+							$('[id^=eliminaimmagine]').each(function(){
+								$(this).click();
+							});
+							$('#aggiungiimmagine').click();
+						} else {
+							alert(response.msg);
+						}
+					});
+	      } else if ($(this).next().attr('src').split('images/').length == 2 && $(this).next().attr('src').split('images/')[1] != '[IMG]') {
+					$('[id^=eliminaimmagine]').each(function(){
+						$(this).click();
+					});
+					$('#aggiungiimmagine').click();
+		    }
+			});
+		}).then(function(){
+			renderTable();
 		});
 	}
   function doDelete(index) {
@@ -301,6 +365,21 @@ jQuery(function($) {
   function renderTable(){
 		$('#outputnotizie').text('');
 		doGet();
+	}
+	function imagePost(file, funzione){
+		let fd = new FormData();
+		fd.append('file', file);
+		$.ajax({
+			url: 'immagini',
+			type: 'POST',
+			data: fd,
+			headers: {
+				'Accept': 'application/json'
+			},
+			contentType: false,
+			processData: false,
+			success: funzione
+		});
 	}
   renderTable();
   id.val(-1);

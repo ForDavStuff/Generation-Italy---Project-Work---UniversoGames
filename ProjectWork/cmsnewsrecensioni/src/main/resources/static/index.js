@@ -26,10 +26,11 @@ class Notizia {
     this.carosello = carosello;
   }
   render() {
-    return `<div class="card shadow-sm">
+    return `<div class="card">
 			<img src="images/${this.copertina.nome}" alt="">
-			<div class="card-body">
-				<p class="card-text"><a href="#" class="notiziaTitolo" data-id="${this.id}">${this.titolo}</a></p>
+			<div class="con-text">
+				<h2>${this.titolo}</h2>
+				<p>${this.categoria} <a href="#" class="notiziaTitolo" data-id="${this.id}">Mostra di pi&ugrave;</a></p>
 			</div>
 		</div>`;
   }
@@ -102,7 +103,7 @@ jQuery(function($) {
 			    ellipsis: '...',
 			    controlBtn: '',
 
-			    showText: 'Mostra di più',
+			    showText: 'Mostra di pi&ugrave;',
 			    hideText: 'Nacondi testo',
 			    showClass: 'show-class',
 			    hideClass: 'hide-class',
